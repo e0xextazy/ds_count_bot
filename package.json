@@ -1,0 +1,20 @@
+{
+  "name": "ds-count-bot",
+  "version": "1.0.0",
+  "description": "Discord-бот подсчёта участников мероприятий (JS-версия)",
+  "type": "module",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "discord.js": "^14.16.0",
+    "pg": "^8.12.0",
+    "googleapis": "^144.0.0",
+    "luxon": "^3.5.0",
+    "dotenv": "^16.4.0"
+  }
+}

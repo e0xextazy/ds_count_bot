@@ -8,8 +8,8 @@ PostgreSQL и экспортом в Google Sheets.
 настройка отслеживаемых войсов, ролей подсчёта и расписания мероприятий
 делается прямо из Discord, без правки кода.
 
-> 🟨 **Версия на JavaScript** — в ветке [`js_version`](../../tree/js_version).
-> В `main` — реализация на Python.
+> 🟦 Вы в ветке **`js_version`** — реализация на **Node.js / discord.js**.
+> Python-версия — в ветке [`main`](../../tree/main).
 
 ---
 
@@ -39,17 +39,19 @@ PostgreSQL и экспортом в Google Sheets.
 
 | Файл | Назначение |
 |---|---|
-| `bot.py` | Точка входа: события, команды, `setup_hook`, запуск |
-| `config.py` | Константы из env, каталог `EVENTS`, проверка доступа |
-| `storage.py` | Состояние (`voice_data.json`): загрузка, миграция, сохранение |
-| `client.py` | Экземпляр бота (intents) + логирование |
-| `counting.py` | Подсчёт участников по ролям, расписание МП |
-| `recalc.py` | Полный пересчёт + фоновая задача |
-| `views.py` | Кнопки и селекты админ-панели |
-| `db.py` | Логирование в PostgreSQL (asyncpg) |
-| `sheets.py` | Экспорт в Google Sheets (gspread) |
+| `bot.js` | Точка входа: события, команды, регистрация слэш-команд, запуск |
+| `config.js` | Константы из env, каталог `EVENTS`, проверка доступа |
+| `storage.js` | Состояние (`voice_data.json`): загрузка, миграция, сохранение |
+| `client.js` | Экземпляр клиента (intents) + логирование |
+| `counting.js` | Подсчёт участников по ролям, расписание МП |
+| `recalc.js` | Полный пересчёт + фоновая задача |
+| `views.js` | Кнопки и селекты админ-панели + маршрутизация интеракций |
+| `db.js` | Логирование в PostgreSQL (`pg`) |
+| `sheets.js` | Экспорт в Google Sheets (`googleapis`) |
 
 Граф зависимостей без циклов: `config → storage/client → counting → recalc → views → bot`.
+
+**Стек:** Node.js 18+, [discord.js](https://discord.js.org) v14, `pg`, `googleapis`, `luxon`.
 
 ---
 

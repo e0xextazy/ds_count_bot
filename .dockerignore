@@ -2,8 +2,8 @@
 .gitignore
 .env
 .env.example
-__pycache__/
-*.pyc
+node_modules/
+npm-debug.log
 voice_data.json
 service_account.json
 stats.xlsx

@@ -9,6 +9,11 @@ voice_data.json
 stats.xlsx
 db_backups/
 
+# ===== Node =====
+node_modules/
+npm-debug.log*
+package-lock.json
+
 # ===== Python =====
 __pycache__/
 *.py[cod]

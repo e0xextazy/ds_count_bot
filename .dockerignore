@@ -1,0 +1,10 @@
+.git
+.gitignore
+.env
+.env.example
+__pycache__/
+*.pyc
+voice_data.json
+service_account.json
+stats.xlsx
+README*.md

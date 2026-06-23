@@ -1,0 +1,22 @@
+# ===== Секреты — НИКОГДА не коммитить =====
+.env
+service_account.json
+*.dump
+*.sql
+
+# ===== Данные бота =====
+voice_data.json
+stats.xlsx
+db_backups/
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# ===== Прочее =====
+.claude/
+*.log
+.DS_Store

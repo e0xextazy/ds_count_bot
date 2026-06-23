@@ -1,0 +1,41 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-botuser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-botpass}
+      POSTGRES_DB: ${POSTGRES_DB:-botdb}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-botuser} -d ${POSTGRES_DB:-botdb}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  bot:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DISCORD_TOKEN: ${DISCORD_TOKEN:?DISCORD_TOKEN не задан в .env}
+      LOG_CHANNEL_ID: ${LOG_CHANNEL_ID:-1516732936760852561}
+      TEST_GUILD_ID: ${TEST_GUILD_ID:-1514367011650670733}
+      ALLOWED_USER_IDS: ${ALLOWED_USER_IDS:-}
+      DATA_FILE: /data/voice_data.json
+      DATABASE_URL: postgres://${POSTGRES_USER:-botuser}:${POSTGRES_PASSWORD:-botpass}@postgres:5432/${POSTGRES_DB:-botdb}
+      GOOGLE_SHEET_ID: ${GOOGLE_SHEET_ID:-}
+      GOOGLE_SA_JSON: /app/service_account.json
+      EXPORT2SHEET: ${EXPORT2SHEET:-false}
+    volumes:
+      - bot_data:/data
+      # JSON-ключ сервисного аккаунта Google (положите service_account.json рядом
+      # с docker-compose.yml). Только для чтения внутри контейнера.
+      - ./service_account.json:/app/service_account.json:ro
+
+volumes:
+  pgdata:
+  bot_data:

@@ -10,11 +10,10 @@ RUN npm install --omit=dev
 # Код (все модули бота)
 COPY *.js ./
 
-# Данные (voice_data.json) храним на volume
+# Данные (voice_data.json) храним на volume.
+# В образе node:20 уже есть непривилегированный пользователь `node` (UID 1000).
 ENV DATA_FILE=/data/voice_data.json
-RUN mkdir -p /data && \
-    useradd --create-home --uid 1000 appuser && \
-    chown -R appuser:appuser /app /data
-USER appuser
+RUN mkdir -p /data && chown -R node:node /app /data
+USER node
 
 CMD ["node", "bot.js"]

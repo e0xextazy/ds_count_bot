@@ -22,8 +22,8 @@ services:
         condition: service_healthy
     environment:
       DISCORD_TOKEN: ${DISCORD_TOKEN:?DISCORD_TOKEN не задан в .env}
-      LOG_CHANNEL_ID: ${LOG_CHANNEL_ID:-1516732936760852561}
-      TEST_GUILD_ID: ${TEST_GUILD_ID:-1514367011650670733}
+      LOG_CHANNEL_ID: ${LOG_CHANNEL_ID:-0}
+      TEST_GUILD_ID: ${TEST_GUILD_ID:-0}
       ALLOWED_USER_IDS: ${ALLOWED_USER_IDS:-}
       DATA_FILE: /data/voice_data.json
       DATABASE_URL: postgres://${POSTGRES_USER:-botuser}:${POSTGRES_PASSWORD:-botpass}@postgres:5432/${POSTGRES_DB:-botdb}

@@ -12,8 +12,8 @@ MSK = ZoneInfo("Europe/Moscow")
 # Значения читаются из переменных окружения (см. .env / docker-compose.yml).
 # Токен НИКОГДА не должен храниться в коде.
 TOKEN = os.environ.get("DISCORD_TOKEN", "")
-LOG_CHANNEL_ID = int(os.environ.get("LOG_CHANNEL_ID", "1516732936760852561"))  # ID канала для логов
-TEST_GUILD_ID = int(os.environ.get("TEST_GUILD_ID", "1514367011650670733"))  # ID вашего сервера
+LOG_CHANNEL_ID = int(os.environ.get("LOG_CHANNEL_ID", "0"))  # ID канала для логов (0 — логи в канал выключены)
+TEST_GUILD_ID = int(os.environ.get("TEST_GUILD_ID", "0"))  # ID сервера для синхронизации слэш-команд
 
 
 def _parse_bool(raw):

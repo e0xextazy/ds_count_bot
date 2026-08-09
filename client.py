@@ -14,14 +14,18 @@ intents.members = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 
-async def log_to_channel(message, embed=None):
+async def log_to_channel(message=None, embed=None):
+    """Отправляет лог в канал LOG_CHANNEL_ID.
+    Можно передать только text (message), только embed, или оба."""
     if LOG_CHANNEL_ID:
         channel = bot.get_channel(LOG_CHANNEL_ID)
         if channel:
             try:
                 if embed:
-                    await channel.send(embed=embed)
+                    # Если есть embed, отправляем его (с текстом, если он передан)
+                    await channel.send(content=message or "", embed=embed)
                 else:
+                    # Если embed нет, отправляем только текст (с префиксом [LOG])
                     await channel.send(f"[LOG] {message}")
             except discord.DiscordException as e:
                 print(f"⚠️ Не удалось отправить лог в канал: {e}")

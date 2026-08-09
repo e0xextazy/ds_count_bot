@@ -24,21 +24,6 @@ async def perform_full_recalc(guild_id, interaction=None, event_name=None):
         today = datetime.now(MSK).strftime("%Y-%m-%d")
         current_time = datetime.now(MSK).strftime("%H:%M")
 
-        target_channel = None
-        if interaction and interaction.channel:
-            target_channel = interaction.channel
-        else:
-            for channel in guild.channels:
-                if isinstance(channel, discord.TextChannel):
-                    permissions = channel.permissions_for(guild.me)
-                    if permissions.send_messages and permissions.view_channel:
-                        target_channel = channel
-                        break
-
-        if not target_channel:
-            print(f"⚠️ Нет доступных каналов на сервере {guild.name}")
-            return
-
         # Кто инициировал пересчёт (для футера карточки)
         if interaction and interaction.user:
             triggered_by = f"Выполнил: {interaction.user.display_name}"
@@ -135,9 +120,9 @@ async def perform_full_recalc(guild_id, interaction=None, event_name=None):
                 )
 
             embed.set_footer(text=triggered_by)
-            await target_channel.send(embed=embed)
+            await log_to_channel(embed=embed)
         else:
-            await target_channel.send("ℹ️ Ни в одном голосовом канале нет подключённых участников.")
+            await log_to_channel("ℹ️ Ни в одном голосовом канале нет подключённых участников.")
 
         # Экспорт в Google Sheets — только для пересчётов в 10:55 и 18:55.
         # Лист = дата (ДД.ММ), два блока на лист (10:55 и 18:55).

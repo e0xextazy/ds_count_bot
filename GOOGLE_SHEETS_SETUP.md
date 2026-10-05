@@ -28,7 +28,9 @@
    и впишите в `.env`:
    ```
    GOOGLE_SHEET_ID=ЭТО_И_ЕСТЬ_ID
+   EXPORT2SHEET=true
    ```
+   Без `EXPORT2SHEET=true` экспорт выключен (по умолчанию `false`).
 
 4. Перезапустите бота: `docker compose up -d --build`.
 
@@ -39,7 +41,7 @@
 
 ## Если экспорт не нужен
 
-Оставьте `GOOGLE_SHEET_ID` пустым (или удалите `service_account.json`) — бот
+Поставьте `EXPORT2SHEET=false` (по умолчанию) или оставьте `GOOGLE_SHEET_ID` пустым — бот
 просто пропустит экспорт, всё остальное работает как раньше.
 
 > Если запускаете без Google Sheets, уберите из `docker-compose.yml` строку

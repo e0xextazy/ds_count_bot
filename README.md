@@ -83,6 +83,19 @@ docker compose logs -f bot
 
 PostgreSQL поднимается тем же compose, таблицы создаются автоматически при старте.
 
+Результаты пересчётов (ручных и плановых) бот отправляет карточкой в канал
+`LOG_CHANNEL_ID` — задайте его, иначе результаты в Discord видно не будет.
+
+### Где хранятся данные
+
+Данные живут в Docker-томах, а не в папке проекта:
+
+- `ds_bot_event_count_pgdata` — база PostgreSQL (логи, пересчёты, составы);
+- `ds_bot_event_count_bot_data` — `voice_data.json` (настройки панели и история).
+
+`docker compose down` тома сохраняет, `docker compose down -v` — **удаляет**.
+Бэкап БД: `docker compose exec postgres pg_dump -U botuser botdb > backup.sql`.
+
 ---
 
 ## ⚙️ Переменные окружения (`.env`)
@@ -90,7 +103,7 @@ PostgreSQL поднимается тем же compose, таблицы созда
 | Переменная | Обязательна | По умолчанию | Описание |
 |---|:---:|---|---|
 | `DISCORD_TOKEN` | ✅ | — | Токен бота Discord |
-| `LOG_CHANNEL_ID` | | `0` | ID текстового канала для логов (`0` — выключено) |
+| `LOG_CHANNEL_ID` | | `0` | ID текстового канала для логов **и карточек с результатами пересчёта** (`0` — выключено, результаты в Discord не публикуются) |
 | `TEST_GUILD_ID` | ✅ | `0` | ID сервера для синхронизации слэш-команд |
 | `ALLOWED_USER_IDS` | | пусто | User ID через запятую (доступ помимо админов) |
 | `POSTGRES_USER` | | `botuser` | Пользователь БД |
@@ -99,6 +112,13 @@ PostgreSQL поднимается тем же compose, таблицы созда
 | `GOOGLE_SHEET_ID` | | пусто | ID Google-таблицы для экспорта |
 | `GOOGLE_SA_JSON` | | `service_account.json` | Путь к ключу сервисного аккаунта |
 | `EXPORT2SHEET` | | `false` | Включить экспорт в Google Sheets (`true`/`false`) |
+
+Задаются в `docker-compose.yml` автоматически (в `.env` не нужны):
+
+| Переменная | Значение в compose | Описание |
+|---|---|---|
+| `DATABASE_URL` | `postgres://…@postgres:5432/…` | Подключение к PostgreSQL (пусто — логирование в БД отключено) |
+| `DATA_FILE` | `/data/voice_data.json` | Файл состояния (войсы, роли, МП, история) |
 
 ---
 
